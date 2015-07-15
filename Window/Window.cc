@@ -34,9 +34,12 @@ void Window::initiateCloseDown() {
     active = false;
 }
 
-void Window::update() {
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+void Window::clear() {
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Window::update() {
     SDL_GL_SwapWindow(window);
 }
 
@@ -46,6 +49,10 @@ Window::~Window() {
 }
 
 void Window::initilizeOpenGL() {
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    
     context = SDL_GL_CreateContext(window);
     if (!context) {
         std::cout << "Could not initilize OpenGL context: " << SDL_GetError() << std::endl;

@@ -13,6 +13,7 @@ public:
     int getWindowHeight();
     bool isActive();
     void initiateCloseDown();
+    void clear();
     void update();
     ~Window();
     
