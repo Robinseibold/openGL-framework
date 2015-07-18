@@ -9,6 +9,7 @@ class Shader {
     
 public:
     Shader(std::string shaderName);
+    GLuint getProgram();
     void activate();
     void unactivate();
     

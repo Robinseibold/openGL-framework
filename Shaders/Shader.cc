@@ -24,6 +24,10 @@ Shader::Shader(std::string shaderName) {
     glDeleteShader(fragmentShader);
 }
 
+GLuint Shader::getProgram() {
+    return shaderProgram;
+}
+
 void Shader::activate() {
     glUseProgram(shaderProgram);
 }
