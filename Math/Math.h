@@ -41,27 +41,27 @@ struct vec4 {
 template <typename T>
 struct mat2 {
     
-    T x1 = 1, y1 = 0;
-    T x2 = 0, y2 = 1;
+    T x1 = 1, x2 = 0;
+    T y1 = 0, y2 = 1;
     
 };
 
 template <typename T>
 struct mat3 {
     
-    T x1 = 1, y1 = 0, z1 = 0;
-    T x2 = 0, y2 = 1, z2 = 0;
-    T x3 = 0, y3 = 0, z3 = 1;
+    T x1 = 1, x2 = 0, x3 = 0;
+    T y1 = 0, y2 = 1, y3 = 0;
+    T z1 = 0, z2 = 0, z3 = 1;
     
 };
 
 template <typename T>
 struct mat4 {
     
-    T x1 = 1, y1 = 0, z1 = 0, w1 = 0;
-    T x2 = 0, y2 = 1, z2 = 0, w2 = 0;
-    T x3 = 0, y3 = 0, z3 = 1, w3 = 0;
-    T x4 = 0, y4 = 0, z4 = 0, w4 = 1;
+    T x1 = 1, x2 = 0, x3 = 0, x4 = 0;
+    T y1 = 0, y2 = 1, y3 = 0, y4 = 0;
+    T z1 = 0, z2 = 0, z3 = 1, z4 = 0;
+    T w1 = 0, w2 = 0, w3 = 0, w4 = 1;
     
     vec4<T> operator * (const vec4<T> &v) {
         return vec4<T>(((x1 * v.x) + (y1 * v.y) + (z1 * v.z) + (w1 * v.w)),
@@ -83,8 +83,8 @@ struct mat4 {
     }
     
     void rotateX(double radians) {
-        double cosValue = cos(radians);
-        double sinValue = sin(radians);
+        T cosValue = cos(radians);
+        T sinValue = sin(radians);
         y2 = cosValue;
         z2 = -sinValue;
         y3 = sinValue;
@@ -92,8 +92,8 @@ struct mat4 {
     }
     
     void rotateY(double radians) {
-        double cosValue = cos(radians);
-        double sinValue = sin(radians);
+        T cosValue = cos(radians);
+        T sinValue = sin(radians);
         x1 = cosValue;
         z1 = sinValue;
         x3 = -sinValue;
@@ -101,12 +101,16 @@ struct mat4 {
     }
     
     void rotateZ(double radians) {
-        double cosValue = cos(radians);
-        double sinValue = sin(radians);
+        T cosValue = cos(radians);
+        T sinValue = sin(radians);
         x1 = cosValue;
         y1 = -sinValue;
         x2 = sinValue;
         y2 = cosValue;
+    }
+    
+    T* array() {
+        return &x1;
     }
     
 };
@@ -126,7 +130,13 @@ inline std::ostream& operator << (std::ostream &o, const vec4<T> &v) {
     return o << "(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";
 }
 
-
+template <typename T>
+inline std::ostream& operator << (std::ostream &o, const mat4<T> &m) {
+    return o << m.x1 << " " << m.y1 << " " << m.z1 << " " << m.w1 << std::endl
+             << m.x2 << " " << m.y2 << " " << m.z2 << " " << m.w2 << std::endl
+             << m.x3 << " " << m.y3 << " " << m.z3 << " " << m.w3 << std::endl
+             << m.x4 << " " << m.y4 << " " << m.z4 << " " << m.w4 << std::endl;
+}
 
 
 
