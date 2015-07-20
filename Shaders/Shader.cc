@@ -2,13 +2,15 @@
 #include "Shader.h"
 
 Shader::Shader(std::string shaderName) {
-    const char *vertexShaderSourceCode = readSourceCode("Shaders/" + shaderName + ".vert").c_str();
+    std::string vertexShaderString = readSourceCode("Shaders/" + shaderName + ".vert");
+    const char *vertexShaderSourceCode = vertexShaderString.c_str();
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSourceCode, NULL);
     glCompileShader(vertexShader);
     checkCompilationSuccess(vertexShader);
     
-    const char *fragmentShaderSourceCode = readSourceCode("Shaders/" + shaderName + ".frag").c_str();
+    std::string fragmentShaderString = readSourceCode("Shaders/" + shaderName + ".frag");
+    const char *fragmentShaderSourceCode = fragmentShaderString.c_str();
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSourceCode, NULL);
     glCompileShader(fragmentShader);
