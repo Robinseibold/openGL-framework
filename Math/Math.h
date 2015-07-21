@@ -18,6 +18,25 @@ struct vec2 {
         return vec2(x + v.x, y + v.y);
     }
     
+    vec2<T> operator - () const {
+        return vec2(-x, -y);
+    }
+    
+    vec2<T> operator - (const vec2<T> &v) const {
+        return vec2(x - v.x, y - v.y);
+    }
+    
+    T dotProduct(const vec2<T> &v) const {
+        return (x * v.x) + (y * v.y);
+    }
+    
+    vec2<T>& normalize() {
+        T sum = x + y;
+        x = x / sum;
+        y = y / sum;
+        return *this;
+    }
+    
 };
 
 template <typename T>
@@ -27,6 +46,43 @@ struct vec3 {
     
     vec3(T x = 0, T y = 0, T z = 0) : x(x), y(y), z(z) { }
     
+    vec3<T>& operator = (const vec3<T> &v) {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+        return *this;
+    }
+    
+    vec3<T> operator + (const vec3<T> &v) const {
+        return vec3(x + v.x, y + v.y, z + v.z);
+    }
+    
+    vec3<T> operator - () const {
+        return vec3(-x, -y, -z);
+    }
+    
+    vec3<T> operator - (const vec3<T> &v) const {
+        return vec3(x - v.x, y - v.y, z - v.z);
+    }
+    
+    T dotProduct(const vec3<T> &v) const {
+        return (x * v.x) + (y * v.y) + (z * v.z);
+    }
+    
+    vec3<T>& normalize() {
+        T sum = x + y + z;
+        x = x / sum;
+        y = y / sum;
+        z = z / sum;
+        return *this;
+    }
+    
+    vec3<T> crossProduct(const vec3<T> &v) const {
+        return vec3(((y * v.z) - (z * v.y)),
+                    ((z * v.x) - (x * v.z)),
+                    ((x * v.y) - (y * v.x)));
+    }
+    
 };
 
 template <typename T>
@@ -35,6 +91,39 @@ struct vec4 {
     T x, y, z, w;
     
     vec4(T x = 0, T y = 0, T z = 0, T w = 0) : x(x), y(y), z(z), w(w) { }
+    
+    vec4<T>& operator = (const vec4<T> &v) {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+        w = v.w;
+        return *this;
+    }
+    
+    vec4<T> operator + (const vec4<T> &v) const {
+        return vec4(x + v.x, y + v.y, z + v.z, w + v.w);
+    }
+    
+    vec4<T> operator - () const {
+        return vec4(-x, -y, -z, -w);
+    }
+    
+    vec4<T> operator - (const vec4<T> &v) const {
+        return vec4(x - v.x, y - v.y, z - v.z, w - v.w);
+    }
+    
+    T dotProduct(const vec3<T> &v) const {
+        return (x * v.x) + (y * v.y) + (z * v.z) + (w * v.w);
+    }
+    
+    vec4<T>& normalize() {
+        T sum = x + y + z + w;
+        x = x / sum;
+        y = y / sum;
+        z = z / sum;
+        w = w / sum;
+        return *this;
+    }
     
 };
 
@@ -166,6 +255,22 @@ struct mat4 {
         z4 = - (T (1));
         w3 = - ((T (2)) * far * near) / (far - near);
         w4 = T (0);
+    }
+    
+    void lookAt(const vec3<T> &right, const vec3<T> &up, const vec3<T> &direction, const vec3<T> &position) {
+        vec3<T> negativePosition = -position;
+        x1 = right.x;
+        y1 = right.y;
+        z1 = right.z;
+        w1 = right.dotProduct(negativePosition);
+        x2 = up.x;
+        y2 = up.y;
+        z2 = up.z;
+        w2 = up.dotProduct(negativePosition);
+        x3 = direction.x;
+        y3 = direction.y;
+        z3 = direction.z;
+        w3 = direction.dotProduct(negativePosition);
     }
     
     T* array() {
