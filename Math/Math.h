@@ -1,4 +1,6 @@
 
+#include <iostream>
+
 #include <math.h>
 
 template <typename T>
@@ -18,6 +20,12 @@ struct vec2 {
         return vec2(x + v.x, y + v.y);
     }
     
+    vec2<T>& operator += (const vec2<T> &v) {
+        x += v.x;
+        y += v.y;
+        return *this;
+    }
+    
     vec2<T> operator - () const {
         return vec2(-x, -y);
     }
@@ -26,14 +34,26 @@ struct vec2 {
         return vec2(x - v.x, y - v.y);
     }
     
+    vec2<T>& operator -= (const vec2<T> &v) {
+        x -= v.x;
+        y -= v.y;
+        return *this;
+    }
+    
+    vec2<T> operator * (T scalar) const {
+        return vec2(x * scalar, y * scalar);
+    }
+    
     T dotProduct(const vec2<T> &v) const {
         return (x * v.x) + (y * v.y);
     }
     
     vec2<T>& normalize() {
-        T sum = x + y;
-        x = x / sum;
-        y = y / sum;
+        T norm = sqrt((x * x) + (y * y));
+        if (norm != 0) {
+            x = x / norm;
+            y = y / norm;
+        }
         return *this;
     }
     
@@ -57,6 +77,13 @@ struct vec3 {
         return vec3(x + v.x, y + v.y, z + v.z);
     }
     
+    vec3<T>& operator += (const vec3<T> &v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
+        return *this;
+    }
+    
     vec3<T> operator - () const {
         return vec3(-x, -y, -z);
     }
@@ -65,15 +92,28 @@ struct vec3 {
         return vec3(x - v.x, y - v.y, z - v.z);
     }
     
+    vec3<T>& operator -= (const vec3<T> &v) {
+        x -= v.x;
+        y -= v.y;
+        z -= v.z;
+        return *this;
+    }
+    
+    vec3<T> operator * (T scalar) const {
+        return vec3(x * scalar, y * scalar, z * scalar);
+    }
+    
     T dotProduct(const vec3<T> &v) const {
         return (x * v.x) + (y * v.y) + (z * v.z);
     }
     
     vec3<T>& normalize() {
-        T sum = x + y + z;
-        x = x / sum;
-        y = y / sum;
-        z = z / sum;
+        T norm = sqrt((x * x) + (y * y) + (z * z));
+        if (norm != 0) {
+            x = x / norm;
+            y = y / norm;
+            z = z / norm;
+        }
         return *this;
     }
     
@@ -104,6 +144,14 @@ struct vec4 {
         return vec4(x + v.x, y + v.y, z + v.z, w + v.w);
     }
     
+    vec4<T>& operator += (const vec4<T> &v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
+        w += v.w;
+        return *this;
+    }
+    
     vec4<T> operator - () const {
         return vec4(-x, -y, -z, -w);
     }
@@ -112,16 +160,30 @@ struct vec4 {
         return vec4(x - v.x, y - v.y, z - v.z, w - v.w);
     }
     
+    vec4<T>& operator -= (const vec4<T> &v) {
+        x -= v.x;
+        y -= v.y;
+        z -= v.z;
+        w -= v.w;
+        return *this;
+    }
+    
+    vec4<T> operator * (T scalar) const {
+        return vec4(x * scalar, y * scalar, z * scalar, w * scalar);
+    }
+    
     T dotProduct(const vec3<T> &v) const {
         return (x * v.x) + (y * v.y) + (z * v.z) + (w * v.w);
     }
     
     vec4<T>& normalize() {
-        T sum = x + y + z + w;
-        x = x / sum;
-        y = y / sum;
-        z = z / sum;
-        w = w / sum;
+        T norm = sqrt((x * x) + (y * y) + (z * z) + (w * w));
+        if (norm != 0) {
+            x = x / norm;
+            y = y / norm;
+            z = z / norm;
+            w = w / norm;
+        }
         return *this;
     }
     
@@ -199,55 +261,61 @@ struct mat4 {
                        x4 * m.w1 + y4 * m.w2 + z4 * m.w3 + w4 * m.w4);
     }
     
-    void scale(T xScale, T yScale, T zScale) {
+    mat4<T>& scale(T xScale, T yScale, T zScale) {
         x1 = xScale;
         y2 = yScale;
         z3 = zScale;
+        return *this;
     }
     
-    void translate(T xTranslation, T yTranslation, T zTranslation) {
+    mat4<T>& translate(T xTranslation, T yTranslation, T zTranslation) {
         w1 = xTranslation;
         w2 = yTranslation;
         w3 = zTranslation;
+        return *this;
     }
     
-    void rotateX(T radians) {
+    mat4<T>& rotateX(T radians) {
         T cosValue = cos(radians);
         T sinValue = sin(radians);
         y2 = cosValue;
         z2 = -sinValue;
         y3 = sinValue;
         z3 = cosValue;
+        return *this;
     }
     
-    void rotateY(T radians) {
+    mat4<T>& rotateY(T radians) {
         T cosValue = cos(radians);
         T sinValue = sin(radians);
         x1 = cosValue;
         z1 = sinValue;
         x3 = -sinValue;
         z3 = cosValue;
+        return *this;
     }
     
-    void rotateZ(T radians) {
+    mat4<T>& rotateZ(T radians) {
         T cosValue = cos(radians);
         T sinValue = sin(radians);
         x1 = cosValue;
         y1 = -sinValue;
         x2 = sinValue;
         y2 = cosValue;
+        return *this;
     }
     
-    void orthographicProjection(T left, T right, T bottom, T top, T near, T far) {
+    mat4<T>& orthographicProjection(T left, T right, T bottom, T top, T near, T far) {
         x1 = (T (2)) / (right - left);
         w1 = -((right + left) / (right - left));
         y2 = (T (2)) / (top - bottom);
         w2 = -((top + bottom) / (top - bottom));
         z3 = (T (-2)) / (far - near);
         w3 = -((far + near) / (far - near));
+        return *this;
     }
     
-    void perspectiveProjection(T fieldOfView, T aspect, T near, T far) {
+    mat4<T>& perspectiveProjection(T fieldOfView, T aspect, T near, T far) {
         T tanValue = tan(fieldOfView / (T (2)));
         x1 = (T (1)) / (aspect * tanValue);
         y2 = (T (1)) / (tanValue);
@@ -255,9 +323,10 @@ struct mat4 {
         z4 = - (T (1));
         w3 = - ((T (2)) * far * near) / (far - near);
         w4 = T (0);
+        return *this;
     }
     
-    void lookAt(const vec3<T> &right, const vec3<T> &up, const vec3<T> &direction, const vec3<T> &position) {
+    mat4<T>& lookAt(const vec3<T> &right, const vec3<T> &up, const vec3<T> &direction, const vec3<T> &position) {
         vec3<T> negativePosition = -position;
         x1 = right.x;
         y1 = right.y;
@@ -271,6 +340,15 @@ struct mat4 {
         y3 = direction.y;
         z3 = direction.z;
         w3 = direction.dotProduct(negativePosition);
+        return *this;
+    }
+    
+    mat4<T>& lookAt(const vec3<T> &up, const vec3<T> &center, const vec3<T> &position) {
+        vec3<T> direction = (position - center).normalize();
+        vec3<T> right = up.crossProduct(direction).normalize();
+        vec3<T> upNew = direction.crossProduct(right).normalize();
+        lookAt(right, upNew, direction, position);
+        return *this;
     }
     
     T* array() {
@@ -302,6 +380,20 @@ inline std::ostream& operator << (std::ostream &o, const mat4<T> &m) {
              << m.x4 << " " << m.y4 << " " << m.z4 << " " << m.w4 << std::endl;
 }
 
+template <typename T>
+vec2<T> operator * (T scalar, const vec2<T> &v) {
+    return v * scalar;
+}
+
+template <typename T>
+vec3<T> operator * (T scalar, const vec3<T> &v) {
+    return v * scalar;
+}
+
+template <typename T>
+vec4<T> operator * (T scalar, const vec4<T> &v) {
+    return v * scalar;
+}
 
 
 
