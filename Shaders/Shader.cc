@@ -38,6 +38,11 @@ void Shader::unactivate() {
     glUseProgram(0);
 }
 
+void Shader::setShaderMatrix(const char *name, const GLfloat *matrixArray) {
+    GLuint matrixLocation = glGetUniformLocation(shaderProgram, name);
+    glUniformMatrix4fv(matrixLocation, 1, GL_FALSE, matrixArray);
+}
+
 std::string Shader::readSourceCode(std::string fileName) {
     std::string sourceCode;
     std::ifstream inputFile(fileName);
