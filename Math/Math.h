@@ -1,3 +1,5 @@
+#ifndef MATH_H
+#define MATH_H
 
 #include <iostream>
 
@@ -55,6 +57,10 @@ struct vec2 {
             y = y / norm;
         }
         return *this;
+    }
+    
+    T* array() {
+        return &x;
     }
     
 };
@@ -123,6 +129,10 @@ struct vec3 {
                     ((x * v.y) - (y * v.x)));
     }
     
+    T* array() {
+        return &x;
+    }
+    
 };
 
 template <typename T>
@@ -187,6 +197,10 @@ struct vec4 {
         return *this;
     }
     
+    T* array() {
+        return &x;
+    }
+    
 };
 
 template <typename T>
@@ -199,6 +213,10 @@ struct mat2 {
          T x2 = 0, T y2 = 1) :
          x1(x1), x2(x2),
          y1(y1), y2(y2) { }
+    
+    T* array() {
+        return &x1;
+    }
     
 };
 
@@ -215,6 +233,10 @@ struct mat3 {
          x1(x1), x2(x2), x3(x3),
          y1(y1), y2(y2), y3(y3),
          z1(z1), z2(z2), z3(z3) { }
+    
+    T* array() {
+        return &x1;
+    }
     
 };
 
@@ -395,18 +417,4 @@ vec4<T> operator * (T scalar, const vec4<T> &v) {
     return v * scalar;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif
