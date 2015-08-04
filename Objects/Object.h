@@ -1,3 +1,5 @@
+#ifndef OBJECT_H
+#define OBJECT_H
 
 #include <openGL/gl3.h>
 #include <vector>
@@ -28,3 +30,5 @@ protected:
     std::vector<GLuint> indices;
     
 };
+
+#endif
