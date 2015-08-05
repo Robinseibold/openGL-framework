@@ -1,8 +1,9 @@
 #ifndef MATH_H
 #define MATH_H
 
-#include <iostream>
+#include <openGL/gl3.h>
 
+#include <iostream>
 #include <math.h>
 
 template <typename T>
@@ -375,6 +376,20 @@ struct mat4 {
     
     T* array() {
         return &x1;
+    }
+    
+};
+
+struct Vertex {
+    
+    vec3<GLfloat> position;
+    vec3<GLfloat> normal;
+    vec2<GLfloat> texCoord;
+    
+    Vertex(GLfloat px, GLfloat py, GLfloat pz, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat tx, GLfloat ty) {
+        position = vec3<GLfloat>(px, py, pz);
+        normal = vec3<GLfloat>(nx, ny, nz);
+        texCoord = vec2<GLfloat>(tx, ty);
     }
     
 };
