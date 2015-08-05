@@ -1,10 +1,10 @@
 
 #version 330 core
 
-in vec4 ambientColor;
+in vec3 objectColor;
 
 out vec4 color;
 
 void main() {
-    color = ambientColor;
+    color = vec4(objectColor, 1.0f);
 }
