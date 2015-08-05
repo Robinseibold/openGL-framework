@@ -386,6 +386,12 @@ struct Vertex {
     vec3<GLfloat> normal;
     vec2<GLfloat> texCoord;
     
+    Vertex() {
+        position = vec3<GLfloat>();
+        normal = vec3<GLfloat>();
+        texCoord = vec2<GLfloat>();
+    }
+    
     Vertex(GLfloat px, GLfloat py, GLfloat pz, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat tx, GLfloat ty) {
         position = vec3<GLfloat>(px, py, pz);
         normal = vec3<GLfloat>(nx, ny, nz);
