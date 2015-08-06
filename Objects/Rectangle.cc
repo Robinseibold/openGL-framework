@@ -7,10 +7,10 @@ Rectangle::Rectangle(GLfloat sideLengthOne, GLfloat sideLengthTwo, Shader *shade
     GLfloat vertexPositionTwo = sideLengthTwo / 2;
     
     vertices = {
-         vertexPositionOne, 0.0f,  vertexPositionTwo,
-         vertexPositionOne, 0.0f, -vertexPositionTwo,
-        -vertexPositionOne, 0.0f, -vertexPositionTwo,
-        -vertexPositionOne, 0.0f,  vertexPositionTwo
+        Vertex( vertexPositionOne, 0.0f,  vertexPositionTwo, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f),
+        Vertex( vertexPositionOne, 0.0f, -vertexPositionTwo, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f),
+        Vertex(-vertexPositionOne, 0.0f, -vertexPositionTwo, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f),
+        Vertex(-vertexPositionOne, 0.0f,  vertexPositionTwo, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f)
     };
     
     indices = {
@@ -18,15 +18,7 @@ Rectangle::Rectangle(GLfloat sideLengthOne, GLfloat sideLengthTwo, Shader *shade
         1, 2, 3
     };
     
-    glBindVertexArray(vertexArrayObject);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-        glBufferData(GL_ARRAY_BUFFER, (vertices.size() * sizeof(GLfloat)), &vertices.front(), GL_STATIC_DRAW);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, (indices.size() * sizeof(GLuint)), &indices.front(), GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    Object::bindBuffers();
 }
 
 Rectangle::~Rectangle() {

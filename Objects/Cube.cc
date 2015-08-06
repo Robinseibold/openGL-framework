@@ -6,35 +6,59 @@ Cube::Cube(GLfloat sideLength, Shader *shaderProgram) {
     GLfloat vertexPosition = sideLength / 2;
     
     vertices = {
-        -vertexPosition, -vertexPosition,  vertexPosition,
-         vertexPosition, -vertexPosition,  vertexPosition,
-         vertexPosition,  vertexPosition,  vertexPosition,
-        -vertexPosition,  vertexPosition,  vertexPosition,
+        Vertex(-vertexPosition, -vertexPosition, -vertexPosition,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f),
+        Vertex( vertexPosition, -vertexPosition, -vertexPosition,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f),
+        Vertex( vertexPosition,  vertexPosition, -vertexPosition,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f),
+        Vertex( vertexPosition,  vertexPosition, -vertexPosition,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f),
+        Vertex(-vertexPosition,  vertexPosition, -vertexPosition,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f),
+        Vertex(-vertexPosition, -vertexPosition, -vertexPosition,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f),
         
-        -vertexPosition, -vertexPosition, -vertexPosition,
-         vertexPosition, -vertexPosition, -vertexPosition,
-         vertexPosition,  vertexPosition, -vertexPosition,
-        -vertexPosition,  vertexPosition, -vertexPosition
+        Vertex(-vertexPosition, -vertexPosition,  vertexPosition,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f),
+        Vertex( vertexPosition, -vertexPosition,  vertexPosition,  0.0f,  0.0f,  1.0f, 1.0f, 0.0f),
+        Vertex( vertexPosition,  vertexPosition,  vertexPosition,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f),
+        Vertex( vertexPosition,  vertexPosition,  vertexPosition,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f),
+        Vertex(-vertexPosition,  vertexPosition,  vertexPosition,  0.0f,  0.0f,  1.0f, 0.0f, 1.0f),
+        Vertex(-vertexPosition, -vertexPosition,  vertexPosition,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f),
+        
+        Vertex(-vertexPosition,  vertexPosition,  vertexPosition, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f),
+        Vertex(-vertexPosition,  vertexPosition, -vertexPosition, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f),
+        Vertex(-vertexPosition, -vertexPosition, -vertexPosition, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f),
+        Vertex(-vertexPosition, -vertexPosition, -vertexPosition, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f),
+        Vertex(-vertexPosition, -vertexPosition,  vertexPosition, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f),
+        Vertex(-vertexPosition,  vertexPosition,  vertexPosition, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f),
+        
+        Vertex( vertexPosition,  vertexPosition,  vertexPosition,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f),
+        Vertex( vertexPosition,  vertexPosition, -vertexPosition,  1.0f,  0.0f,  0.0f, 1.0f, 1.0f),
+        Vertex( vertexPosition, -vertexPosition, -vertexPosition,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f),
+        Vertex( vertexPosition, -vertexPosition, -vertexPosition,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f),
+        Vertex( vertexPosition, -vertexPosition,  vertexPosition,  1.0f,  0.0f,  0.0f, 0.0f, 0.0f),
+        Vertex( vertexPosition,  vertexPosition,  vertexPosition,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f),
+        
+        Vertex(-vertexPosition, -vertexPosition, -vertexPosition,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f),
+        Vertex( vertexPosition, -vertexPosition, -vertexPosition,  0.0f, -1.0f,  0.0f, 1.0f, 1.0f),
+        Vertex( vertexPosition, -vertexPosition,  vertexPosition,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f),
+        Vertex( vertexPosition, -vertexPosition,  vertexPosition,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f),
+        Vertex(-vertexPosition, -vertexPosition,  vertexPosition,  0.0f, -1.0f,  0.0f, 0.0f, 0.0f),
+        Vertex(-vertexPosition, -vertexPosition, -vertexPosition,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f),
+        
+        Vertex(-vertexPosition,  vertexPosition, -vertexPosition,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f),
+        Vertex( vertexPosition,  vertexPosition, -vertexPosition,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f),
+        Vertex( vertexPosition,  vertexPosition,  vertexPosition,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f),
+        Vertex( vertexPosition,  vertexPosition,  vertexPosition,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f),
+        Vertex(-vertexPosition,  vertexPosition,  vertexPosition,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f),
+        Vertex(-vertexPosition,  vertexPosition, -vertexPosition,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f)
     };
     
     indices = {
-        0, 1, 2, 2, 3, 0,
-        3, 2, 6, 6, 7, 3,
-        7, 6, 5, 5, 4, 7,
-        4, 5, 1, 1, 0, 4,
-        4, 0, 3, 3, 7, 4,
-        1, 5, 6, 6, 2, 1
+        0,  1,  2,  3,  4,  5,
+        6,  7,  8,  9,  10, 11,
+        12, 13, 14, 15, 16, 17,
+        18, 19, 20, 21, 22, 23,
+        24, 25, 26, 27, 28, 29,
+        30, 31, 32, 33, 34, 35
     };
     
-    glBindVertexArray(vertexArrayObject);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-        glBufferData(GL_ARRAY_BUFFER, (vertices.size() * sizeof(GLfloat)), &vertices.front(), GL_STATIC_DRAW);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, (indices.size() * sizeof(GLuint)), &indices.front(), GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    Object::bindBuffers();
 }
 
 Cube::~Cube() {
