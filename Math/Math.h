@@ -258,6 +258,21 @@ struct mat4 {
          z1(z1), z2(z2), z3(z3), z4(z4),
          w1(w1), w2(w2), w3(w3), w4(w4) { }
     
+    mat4<T>& operator = (const mat4<T> &m) {
+        x1 = m.x1; x2 = m.x2; x3 = m.x3; x4 = m.x4;
+        y1 = m.y1; y2 = m.y2; y3 = m.y3; y4 = m.y4;
+        z1 = m.z1; z2 = m.z2; z3 = m.z3; z4 = m.z4;
+        w1 = m.w1; w2 = m.w2; w3 = m.w3; w4 = m.w4;
+        return *this;
+    }
+    
+    mat4<T> operator * (T scalar) const {
+        return mat4(x1 * scalar, y1 * scalar, z1 * scalar, w1 * scalar,
+                    x2 * scalar, y2 * scalar, z2 * scalar, w2 * scalar,
+                    x3 * scalar, y3 * scalar, z3 * scalar, w3 * scalar,
+                    x4 * scalar, y4 * scalar, z4 * scalar, w4 * scalar);
+    }
+    
     vec4<T> operator * (const vec4<T> &v) {
         return vec4<T>(((x1 * v.x) + (y1 * v.y) + (z1 * v.z) + (w1 * v.w)),
                        ((x2 * v.x) + (y2 * v.y) + (z2 * v.z) + (w2 * v.w)),
@@ -325,6 +340,36 @@ struct mat4 {
         y1 = -sinValue;
         x2 = sinValue;
         y2 = cosValue;
+        return *this;
+    }
+    
+    mat4<T>& inverse() {
+        T inverseValues[16];
+        inverseValues[0] =   (y2 * z3 * w4) - (y2 * z4 * w3) - (z2 * y3 * w4) + (z2 * y4 * w3) + (w2 * y3 * z4) - (w2 * y4 * z3);
+        inverseValues[1] =  -(x2 * z3 * w4) + (x2 * z4 * w3) + (z2 * x3 * w4) - (z2 * x4 * w3) - (w2 * x3 * z4) + (w2 * x4 * z3);
+        inverseValues[2] =   (x2 * y3 * w4) - (x2 * y4 * w3) - (y2 * x3 * w4) + (y2 * x4 * w3) + (w2 * x3 * y4) - (w2 * x4 * y3);
+        inverseValues[3] =  -(x2 * y3 * z4) + (x2 * y4 * z3) + (y2 * x3 * z4) - (y2 * x4 * z3) - (z2 * x3 * y4) + (z2 * x4 * y3);
+        inverseValues[4] =  -(y1 * z3 * w4) + (y1 * z4 * w3) + (z1 * y3 * w4) - (z1 * y4 * w3) - (w1 * y3 * z4) + (w1 * y4 * z3);
+        inverseValues[5] =   (x1 * z3 * w4) - (x1 * z4 * w3) - (z1 * x3 * w4) + (z1 * x4 * w3) + (w1 * x3 * z4) - (w1 * x4 * z3);
+        inverseValues[6] =  -(x1 * y3 * w4) + (x1 * y4 * w3) + (y1 * x3 * w4) - (y1 * x4 * w3) - (w1 * x3 * y4) + (w1 * x4 * y3);
+        inverseValues[7] =   (x1 * y3 * z4) - (x1 * y4 * z3) - (y1 * x3 * z4) + (y1 * x4 * z3) + (z1 * x3 * y4) - (z1 * x4 * y3);
+        inverseValues[8] =   (y1 * z2 * w4) - (y1 * z4 * w2) - (z1 * y2 * w4) + (z1 * y4 * w2) + (w1 * y2 * z4) - (w1 * y4 * z2);
+        inverseValues[9] =  -(x1 * z2 * w4) + (x1 * z4 * w2) + (z1 * x2 * w4) - (z1 * x4 * w2) - (w1 * x2 * z4) + (w1 * x4 * z2);
+        inverseValues[10] =  (x1 * y2 * w4) - (x1 * y4 * w2) - (y1 * x2 * w4) + (y1 * x4 * w2) + (w1 * x2 * y4) - (w1 * x4 * y2);
+        inverseValues[11] = -(x1 * y2 * z4) + (x1 * y4 * z2) + (y1 * x2 * z4) - (y1 * x4 * z2) - (z1 * x2 * y4) + (z1 * x4 * y2);
+        inverseValues[12] = -(y1 * z2 * w3) + (y1 * z3 * w2) + (z1 * y2 * w3) - (z1 * y3 * w2) - (w1 * y2 * z3) + (w1 * y3 * z2);
+        inverseValues[13] =  (x1 * z2 * w3) - (x1 * z3 * w2) - (z1 * x2 * w3) + (z1 * x3 * w2) + (w1 * x2 * z3) - (w1 * x3 * z2);
+        inverseValues[14] = -(x1 * y2 * w3) + (x1 * y3 * w2) + (y1 * x2 * w3) - (y1 * x3 * w2) - (w1 * x2 * y3) + (w1 * x3 * y2);
+        inverseValues[15] =  (x1 * y2 * z3) - (x1 * y3 * z2) - (y1 * x2 * z3) + (y1 * x3 * z2) + (z1 * x2 * y3) - (z1 * x3 * y2);
+        
+        T determenant = (x1 * inverseValues[0]) + (x2 * inverseValues[4]) + (x3 * inverseValues[8]) + x4 * inverseValues[12];
+        if (determenant == 0)
+            return *this;
+        
+        determenant = 1 / determenant;
+        for(int i = 0; i != 16; ++i) {
+            (&x1)[i] = inverseValues[i] * determenant;
+        }
         return *this;
     }
     
@@ -436,6 +481,11 @@ vec3<T> operator * (T scalar, const vec3<T> &v) {
 template <typename T>
 vec4<T> operator * (T scalar, const vec4<T> &v) {
     return v * scalar;
+}
+
+template <typename T>
+mat4<T> operator * (T scalar, const mat4<T> &m) {
+    return m * scalar;
 }
 
 #endif
