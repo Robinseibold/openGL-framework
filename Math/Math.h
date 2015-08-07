@@ -373,6 +373,16 @@ struct mat4 {
         return *this;
     }
     
+    mat4<T>& transpose() {
+        std::swap(x2, y1);
+        std::swap(x3, z1);
+        std::swap(x4, w1);
+        std::swap(y3, z2);
+        std::swap(y4, w2);
+        std::swap(z4, w3);
+        return *this;
+    }
+    
     mat4<T>& orthographicProjection(T left, T right, T bottom, T top, T near, T far) {
         x1 = (T (2)) / (right - left);
         w1 = -((right + left) / (right - left));
