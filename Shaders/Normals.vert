@@ -6,12 +6,12 @@ layout (location = 1) in vec3 Normal;
 
 out vec3 normal;
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
-uniform mat4 inverseTransposeModel;
+uniform mat4 Model;
+uniform mat4 View;
+uniform mat4 Projection;
+uniform mat4 InverseTransposeModel;
 
 void main() {
-    gl_Position = projection * view * model * vec4(Position, 1.0f);
-    normal = normalize(mat3(inverseTransposeModel) * Normal);
+    gl_Position = Projection * View * Model * vec4(Position, 1.0f);
+    normal = normalize(mat3(InverseTransposeModel) * Normal);
 }
