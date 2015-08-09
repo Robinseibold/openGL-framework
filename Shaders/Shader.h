@@ -12,7 +12,8 @@ public:
     GLuint getProgram();
     void activate();
     void unactivate();
-    void setShaderMatrix(const char *name, const GLfloat *matrixArray);
+    void setPropertyMatrix(const char *name, const GLfloat *matrixArray);
+    void setPropertyVector(const char *name, const GLfloat *vectorArray);
     
 private:
     GLuint shaderProgram;

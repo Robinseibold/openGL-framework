@@ -38,9 +38,22 @@ void Shader::unactivate() {
     glUseProgram(0);
 }
 
-void Shader::setShaderMatrix(const char *name, const GLfloat *matrixArray) {
+void Shader::setPropertyMatrix(const char *name, const GLfloat *matrixArray) {
     GLuint matrixLocation = glGetUniformLocation(shaderProgram, name);
+    if (matrixLocation == -1) {
+        std::cout << "The matrix name '" << name << "' does not correspond to a variable in the shader" << std::endl;
+        return;
+    }
     glUniformMatrix4fv(matrixLocation, 1, GL_FALSE, matrixArray);
+}
+
+void Shader::setPropertyVector(const char *name, const GLfloat *vectorArray) {
+    GLuint vectorLocation = glGetUniformLocation(shaderProgram, name);
+    if (vectorLocation == -1) {
+        std::cout << "The vector name '" << name << "' does not correspond to a variable in the shader" << std::endl;
+        return;
+    }
+    glUniform3fv(vectorLocation, 1, vectorArray);
 }
 
 std::string Shader::readSourceCode(std::string fileName) {
