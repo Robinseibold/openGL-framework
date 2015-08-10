@@ -18,12 +18,12 @@ Camera::Camera(vec3<GLfloat> position, vec3<GLfloat> front, vec3<GLfloat> up) {
     pitch = 0.0f;
 }
 
-vec3<GLfloat> Camera::getCameraPosition() {
-    return cameraPosition;
+vec3<GLfloat>* Camera::getCameraPosition() {
+    return &cameraPosition;
 }
 
-mat4<GLfloat> Camera::getViewMatrix() {
-    return viewMatrix.lookAt(cameraUp, (cameraPosition + cameraFront), cameraPosition);
+mat4<GLfloat>* Camera::getViewMatrix() {
+    return &viewMatrix.lookAt(cameraUp, (cameraPosition + cameraFront), cameraPosition);
 }
 
 void Camera::move() {
