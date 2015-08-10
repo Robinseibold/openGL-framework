@@ -8,6 +8,7 @@ class Camera {
     
 public:
     Camera(vec3<GLfloat> position, vec3<GLfloat> target, vec3<GLfloat> up);
+    vec3<GLfloat> getCameraPosition();
     mat4<GLfloat> getViewMatrix();
     void move();
     
