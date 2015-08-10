@@ -12,6 +12,7 @@ Window::Window(int width, int height, const char *title) {
     }
     initilizeOpenGL();
     active = true;
+    projectionMatrix.perspectiveProjection((GLfloat)(M_PI / 4), ((GLfloat)this->getWindowWidth() / (GLfloat)this->getWindowHeight()), 0.1f, 100.0f);
 }
 
 int Window::getWindowWidth() {
@@ -24,6 +25,14 @@ int Window::getWindowHeight() {
     int height;
     SDL_GetWindowSize(window, &height, NULL);
     return height;
+}
+
+mat4<GLfloat>* Window::getProjectionMatrix() {
+    return &projectionMatrix;
+}
+
+void Window::setProjectionMatrix(mat4<GLfloat> newProjectionMatrix) {
+    projectionMatrix = newProjectionMatrix;
 }
 
 bool Window::isActive() {
