@@ -307,10 +307,14 @@ struct mat4 {
     }
     
     mat4<T>& translate(T xTranslation, T yTranslation, T zTranslation) {
-        w1 = xTranslation;
-        w2 = yTranslation;
-        w3 = zTranslation;
+        w1 += xTranslation;
+        w2 += yTranslation;
+        w3 += zTranslation;
         return *this;
+    }
+    
+    mat4<T>& translate(vec3<T> &v) {
+        return (*this).translate(v.x, v.y, v.z);
     }
     
     mat4<T>& rotateX(T radians) {
@@ -447,10 +451,37 @@ struct Vertex {
         texCoord = vec2<GLfloat>();
     }
     
-    Vertex(GLfloat px, GLfloat py, GLfloat pz, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat tx, GLfloat ty) {
+    Vertex(GLfloat px, GLfloat py, GLfloat pz, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat ts, GLfloat tt) {
         position = vec3<GLfloat>(px, py, pz);
         normal = vec3<GLfloat>(nx, ny, nz);
-        texCoord = vec2<GLfloat>(tx, ty);
+        texCoord = vec2<GLfloat>(ts, tt);
+    }
+    
+};
+
+struct ExtendedVertex {
+    
+    vec3<GLfloat> position;
+    vec3<GLfloat> normal;
+    vec2<GLfloat> texCoord;
+    vec3<GLfloat> tangent;
+    vec3<GLfloat> binormal;
+    
+    ExtendedVertex() {
+        position = vec3<GLfloat>();
+        normal = vec3<GLfloat>();
+        texCoord = vec2<GLfloat>();
+        tangent = vec3<GLfloat>();
+        binormal = vec3<GLfloat>();
+    }
+    
+    ExtendedVertex(GLfloat px, GLfloat py, GLfloat pz, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat ts, GLfloat tt,
+                   GLfloat tx, GLfloat ty, GLfloat tz, GLfloat bx, GLfloat by, GLfloat bz) {
+        position = vec3<GLfloat>(px, py, pz);
+        normal = vec3<GLfloat>(nx, ny, nz);
+        texCoord = vec2<GLfloat>(ts, tt);
+        tangent = vec3<GLfloat>(tx, ty, tz);
+        binormal = vec3<GLfloat>(bx, by, bz);
     }
     
 };
