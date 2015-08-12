@@ -472,6 +472,9 @@ struct Vertex {
         binormal = vec3<GLfloat>(bx, by, bz);
     }
     
+    Vertex(vec3<GLfloat> &position, vec3<GLfloat> &normal, vec2<GLfloat> &texCoord, vec3<GLfloat> &tangent, vec3<GLfloat> &binormal) :
+           position(position), normal(normal), texCoord(texCoord), tangent(tangent), binormal(binormal) { }
+    
 };
 
 template <typename T>
@@ -495,6 +498,14 @@ inline std::ostream& operator << (std::ostream &o, const mat4<T> &m) {
              << m.x2 << " " << m.y2 << " " << m.z2 << " " << m.w2 << std::endl
              << m.x3 << " " << m.y3 << " " << m.z3 << " " << m.w3 << std::endl
              << m.x4 << " " << m.y4 << " " << m.z4 << " " << m.w4 << std::endl;
+}
+
+inline std::ostream& operator << (std::ostream &o, const Vertex &vertex) {
+    return o << "Position: " << vertex.position << std::endl
+             << "Normal: "   << vertex.normal   << std::endl
+             << "TexCoord: " << vertex.texCoord << std::endl
+             << "Tangent: "  << vertex.tangent  << std::endl
+             << "Binormal: " << vertex.binormal << std::endl;
 }
 
 template <typename T>
