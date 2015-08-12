@@ -444,30 +444,10 @@ struct Vertex {
     vec3<GLfloat> position;
     vec3<GLfloat> normal;
     vec2<GLfloat> texCoord;
-    
-    Vertex() {
-        position = vec3<GLfloat>();
-        normal = vec3<GLfloat>();
-        texCoord = vec2<GLfloat>();
-    }
-    
-    Vertex(GLfloat px, GLfloat py, GLfloat pz, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat ts, GLfloat tt) {
-        position = vec3<GLfloat>(px, py, pz);
-        normal = vec3<GLfloat>(nx, ny, nz);
-        texCoord = vec2<GLfloat>(ts, tt);
-    }
-    
-};
-
-struct ExtendedVertex {
-    
-    vec3<GLfloat> position;
-    vec3<GLfloat> normal;
-    vec2<GLfloat> texCoord;
     vec3<GLfloat> tangent;
     vec3<GLfloat> binormal;
     
-    ExtendedVertex() {
+    Vertex() {
         position = vec3<GLfloat>();
         normal = vec3<GLfloat>();
         texCoord = vec2<GLfloat>();
@@ -475,8 +455,16 @@ struct ExtendedVertex {
         binormal = vec3<GLfloat>();
     }
     
-    ExtendedVertex(GLfloat px, GLfloat py, GLfloat pz, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat ts, GLfloat tt,
-                   GLfloat tx, GLfloat ty, GLfloat tz, GLfloat bx, GLfloat by, GLfloat bz) {
+    Vertex(GLfloat px, GLfloat py, GLfloat pz, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat ts, GLfloat tt) {
+        position = vec3<GLfloat>(px, py, pz);
+        normal = vec3<GLfloat>(nx, ny, nz);
+        texCoord = vec2<GLfloat>(ts, tt);
+        tangent = vec3<GLfloat>();
+        binormal = vec3<GLfloat>();
+    }
+    
+    Vertex(GLfloat px, GLfloat py, GLfloat pz, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat ts, GLfloat tt,
+           GLfloat tx, GLfloat ty, GLfloat tz, GLfloat bx, GLfloat by, GLfloat bz) {
         position = vec3<GLfloat>(px, py, pz);
         normal = vec3<GLfloat>(nx, ny, nz);
         texCoord = vec2<GLfloat>(ts, tt);
