@@ -4,7 +4,7 @@
 Sphere::Sphere(GLfloat radius, int thetaResolution, int phiResolution, Shader *shaderProgram) {
     shader = shaderProgram;
     vertices.assign((thetaResolution * phiResolution), Vertex());
-    indices.assign((6.0f * (thetaResolution - 1) * (phiResolution - 1)), 0);
+    indices.assign((6 * (thetaResolution - 1) * (phiResolution - 1)), 0);
     
     GLfloat theta = 0.0f;
     GLfloat deltaTheta = (2.0f * M_PI) / (thetaResolution - 1.0f);
