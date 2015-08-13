@@ -447,33 +447,33 @@ struct Vertex {
     vec3<GLfloat> tangent;
     vec3<GLfloat> binormal;
     
-    Vertex() {
-        position = vec3<GLfloat>();
-        normal = vec3<GLfloat>();
-        texCoord = vec2<GLfloat>();
-        tangent = vec3<GLfloat>();
-        binormal = vec3<GLfloat>();
-    }
+    Vertex() : position(vec3<GLfloat>()),
+               normal(vec3<GLfloat>()),
+               texCoord(vec2<GLfloat>()),
+               tangent(vec3<GLfloat>()),
+               binormal(vec3<GLfloat>()) { }
     
-    Vertex(GLfloat px, GLfloat py, GLfloat pz, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat ts, GLfloat tt) {
-        position = vec3<GLfloat>(px, py, pz);
-        normal = vec3<GLfloat>(nx, ny, nz);
-        texCoord = vec2<GLfloat>(ts, tt);
-        tangent = vec3<GLfloat>();
-        binormal = vec3<GLfloat>();
-    }
+    Vertex(GLfloat px, GLfloat py, GLfloat pz, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat ts, GLfloat tt) :
+               position(vec3<GLfloat>(px, py, pz)),
+               normal(vec3<GLfloat>(nx, ny, nz)),
+               texCoord(vec2<GLfloat>(ts, tt)),
+               tangent(vec3<GLfloat>()),
+               binormal(vec3<GLfloat>()) { }
     
     Vertex(GLfloat px, GLfloat py, GLfloat pz, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat ts, GLfloat tt,
-           GLfloat tx, GLfloat ty, GLfloat tz, GLfloat bx, GLfloat by, GLfloat bz) {
-        position = vec3<GLfloat>(px, py, pz);
-        normal = vec3<GLfloat>(nx, ny, nz);
-        texCoord = vec2<GLfloat>(ts, tt);
-        tangent = vec3<GLfloat>(tx, ty, tz);
-        binormal = vec3<GLfloat>(bx, by, bz);
-    }
+           GLfloat tx, GLfloat ty, GLfloat tz, GLfloat bx, GLfloat by, GLfloat bz) :
+               position(vec3<GLfloat>(px, py, pz)),
+               normal(vec3<GLfloat>(nx, ny, nz)),
+               texCoord(vec2<GLfloat>(ts, tt)),
+               tangent(vec3<GLfloat>(tx, ty, tz)),
+               binormal(vec3<GLfloat>(bx, by, bz)) { }
     
     Vertex(vec3<GLfloat> &position, vec3<GLfloat> &normal, vec2<GLfloat> &texCoord, vec3<GLfloat> &tangent, vec3<GLfloat> &binormal) :
-           position(position), normal(normal), texCoord(texCoord), tangent(tangent), binormal(binormal) { }
+               position(position),
+               normal(normal),
+               texCoord(texCoord),
+               tangent(tangent),
+               binormal(binormal) { }
     
 };
 
