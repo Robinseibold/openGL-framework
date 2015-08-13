@@ -13,5 +13,5 @@ uniform mat4 InverseTransposeModel;
 
 void main() {
     gl_Position = Projection * View * Model * vec4(Position, 1.0f);
-    normal = normalize(mat3(InverseTransposeModel) * Normal);
+    normal = mat3(InverseTransposeModel) * Normal;
 }
