@@ -20,14 +20,3 @@ Rectangle::Rectangle(GLfloat sideLengthOne, GLfloat sideLengthTwo, Shader *shade
     
     Object::bindBuffers();
 }
-
-Rectangle::~Rectangle() {
-    shader = NULL;
-}
-
-void Rectangle::draw() {
-    shader->activate();
-    glBindVertexArray(vertexArrayObject);
-        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
-}

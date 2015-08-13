@@ -60,14 +60,3 @@ Cube::Cube(GLfloat sideLength, Shader *shaderProgram) {
     
     Object::bindBuffers();
 }
-
-Cube::~Cube() {
-    shader = NULL;
-}
-
-void Cube::draw() {
-    shader->activate();
-    glBindVertexArray(vertexArrayObject);
-        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
-}
