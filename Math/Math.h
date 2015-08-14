@@ -300,6 +300,13 @@ struct mat4 {
     }
     
     mat4<T>& scale(T xScale, T yScale, T zScale) {
+        x1 *= xScale;
+        y2 *= yScale;
+        z3 *= zScale;
+        return *this;
+    }
+    
+    mat4<T>& scaleTo(T xScale, T yScale, T zScale) {
         x1 = xScale;
         y2 = yScale;
         z3 = zScale;
@@ -315,6 +322,17 @@ struct mat4 {
     
     mat4<T>& translate(vec3<T> &v) {
         return (*this).translate(v.x, v.y, v.z);
+    }
+    
+    mat4<T>& translateTo(T xTranslation, T yTranslation, T zTranslation) {
+        w1 = xTranslation;
+        w2 = yTranslation;
+        w3 = zTranslation;
+        return *this;
+    }
+    
+    mat4<T>& translateTo(vec3<T> &v) {
+        return (*this).translateTo(v.x, v.y, v.z);
     }
     
     mat4<T>& rotateX(T radians) {
