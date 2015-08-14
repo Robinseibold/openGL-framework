@@ -23,7 +23,7 @@ vec3<GLfloat>* Camera::getCameraPosition() {
 }
 
 mat4<GLfloat>* Camera::getViewMatrix() {
-    return &viewMatrix.lookAt(cameraUp, (cameraPosition + cameraFront), cameraPosition);
+    return &viewMatrix;
 }
 
 void Camera::move() {
@@ -32,6 +32,7 @@ void Camera::move() {
     lastFrameTime = currentFrameTime;
     handleKeyboardInputs(deltaTime);
     handleMouseInputs();
+    viewMatrix.lookAt(cameraUp, (cameraPosition + cameraFront), cameraPosition);
 }
 
 void Camera::handleKeyboardInputs(GLfloat deltaTime) {
