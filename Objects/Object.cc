@@ -27,22 +27,12 @@ void Object::draw() {
 
 void Object::moveBy(GLfloat x, GLfloat y, GLfloat z) {
     Node::moveBy(x, y, z);
-    mat4<GLfloat> inverseTransposeModel = modelMatrix;
-    inverseTransposeModel.inverse().transpose();
-    shader->activate();
-    shader->setPropertyMatrix("Model", modelMatrix.array());
-    shader->setPropertyMatrix("InverseTransposeModel", inverseTransposeModel.array());
+    shader->setModelMatrix(modelMatrix);
 }
 
 void Object::setTransformationMatrices(mat4<GLfloat> &model, mat4<GLfloat> *view, mat4<GLfloat> *projection) {
     Node::setTransformationMatrices(model, view, projection);
-    mat4<GLfloat> inverseTransposeModel = modelMatrix;
-    inverseTransposeModel.inverse().transpose();
-    shader->activate();
-    shader->setPropertyMatrix("Model", modelMatrix.array());
-    shader->setPropertyMatrix("InverseTransposeModel", inverseTransposeModel.array());
-    shader->setPropertyMatrix("View", viewMatrix->array());
-    shader->setPropertyMatrix("Projection", projectionMatrix->array());
+    shader->setTransformationMatrices(modelMatrix, viewMatrix, projectionMatrix);
 }
 
 void Object::bindBuffers() {

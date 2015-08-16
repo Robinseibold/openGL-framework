@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 
+#include "../Math/Math.h"
+
 class Shader {
     
 public:
@@ -12,6 +14,8 @@ public:
     GLuint getProgram();
     void activate();
     void unactivate();
+    void setModelMatrix(mat4<GLfloat> &model);
+    void setTransformationMatrices(mat4<GLfloat> &model, mat4<GLfloat> *view, mat4<GLfloat> *projection);
     void setPropertyMatrix(const char *name, const GLfloat *matrixArray);
     void setPropertyVector(const char *name, const GLfloat *vectorArray);
     

@@ -38,12 +38,39 @@ void Shader::unactivate() {
     glUseProgram(0);
 }
 
+void Shader::setModelMatrix(mat4<GLfloat> &model) {
+    this->activate();
+    GLuint modelMatrixLocation = glGetUniformLocation(shaderProgram, "Model");
+    if(modelMatrixLocation != -1) {
+        glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, model.array());
+    }
+    GLuint inverseTransposeModelMatrixLocation = glGetUniformLocation(shaderProgram, "InverseTransposeModel");
+    if(inverseTransposeModelMatrixLocation != -1) {
+        mat4<GLfloat> inverseTransposeModel = model;
+        inverseTransposeModel.inverse().transpose();
+        glUniformMatrix4fv(inverseTransposeModelMatrixLocation, 1, GL_FALSE, inverseTransposeModel.array());
+    }
+}
+
+void Shader::setTransformationMatrices(mat4<GLfloat> &model, mat4<GLfloat> *view, mat4<GLfloat> *projection) {
+    this->setModelMatrix(model);
+    GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "View");
+    if(viewMatrixLocation != -1) {
+        glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, view->array());
+    }
+    GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "Projection");
+    if(projectionMatrixLocation != -1) {
+        glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, projection->array());
+    }
+}
+
 void Shader::setPropertyMatrix(const char *name, const GLfloat *matrixArray) {
     GLuint matrixLocation = glGetUniformLocation(shaderProgram, name);
     if (matrixLocation == -1) {
         std::cout << "The matrix name '" << name << "' does not correspond to a variable in the shader" << std::endl;
         return;
     }
+    this->activate();
     glUniformMatrix4fv(matrixLocation, 1, GL_FALSE, matrixArray);
 }
 
@@ -53,6 +80,7 @@ void Shader::setPropertyVector(const char *name, const GLfloat *vectorArray) {
         std::cout << "The vector name '" << name << "' does not correspond to a variable in the shader" << std::endl;
         return;
     }
+    this->activate();
     glUniform3fv(vectorLocation, 1, vectorArray);
 }
 
