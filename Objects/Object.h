@@ -3,15 +3,15 @@
 
 #include <vector>
 
+#include "Node.h"
 #include "../Shaders/Shader.h"
-#include "../Math/Math.h"
 
-class Object {
+class Object : public Node {
     
 public:
-    Object();
     ~Object();
     void draw();
+    void moveBy(GLfloat x, GLfloat y, GLfloat z);
     
 protected:
     GLuint vertexArrayObject;
@@ -21,9 +21,11 @@ protected:
     std::vector<Vertex> vertices;
     std::vector<GLuint> indices;
     
-    Shader *shader;
+    std::shared_ptr<Shader> shader;
     
+    Object(std::shared_ptr<Shader> shaderProgram);
     void bindBuffers();
+    void setTransformationMatrices(mat4<GLfloat> &model, mat4<GLfloat> *view, mat4<GLfloat> *projection);
     
 };
 

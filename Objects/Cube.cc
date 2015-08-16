@@ -1,8 +1,7 @@
 
 #include "Cube.h"
 
-Cube::Cube(GLfloat sideLength, Shader *shaderProgram) {
-    shader = shaderProgram;
+Cube::Cube(GLfloat sideLength, std::shared_ptr<Shader> shaderProgram) : Object(shaderProgram) {
     GLfloat vertexPosition = sideLength / 2;
     
     vertices = {

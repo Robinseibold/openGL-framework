@@ -1,7 +1,7 @@
 
 #include "Object.h"
 
-Object::Object() {
+Object::Object(std::shared_ptr<Shader> shaderProgram) : shader(shaderProgram) {
     glGenVertexArrays(1, &vertexArrayObject);
     glGenBuffers(1, &vertexBufferObject);
     glGenBuffers(1, &elementBufferObject);
@@ -16,9 +16,33 @@ Object::~Object() {
 
 void Object::draw() {
     shader->activate();
+    if (viewMatrix) {
+        shader->setPropertyMatrix("View", viewMatrix->array());
+    }
     glBindVertexArray(vertexArrayObject);
         glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
+    Node::draw();
+}
+
+void Object::moveBy(GLfloat x, GLfloat y, GLfloat z) {
+    Node::moveBy(x, y, z);
+    mat4<GLfloat> inverseTransposeModel = modelMatrix;
+    inverseTransposeModel.inverse().transpose();
+    shader->activate();
+    shader->setPropertyMatrix("Model", modelMatrix.array());
+    shader->setPropertyMatrix("InverseTransposeModel", inverseTransposeModel.array());
+}
+
+void Object::setTransformationMatrices(mat4<GLfloat> &model, mat4<GLfloat> *view, mat4<GLfloat> *projection) {
+    Node::setTransformationMatrices(model, view, projection);
+    mat4<GLfloat> inverseTransposeModel = modelMatrix;
+    inverseTransposeModel.inverse().transpose();
+    shader->activate();
+    shader->setPropertyMatrix("Model", modelMatrix.array());
+    shader->setPropertyMatrix("InverseTransposeModel", inverseTransposeModel.array());
+    shader->setPropertyMatrix("View", viewMatrix->array());
+    shader->setPropertyMatrix("Projection", projectionMatrix->array());
 }
 
 void Object::bindBuffers() {

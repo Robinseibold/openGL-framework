@@ -1,8 +1,7 @@
 
 #include "Sphere.h"
 
-Sphere::Sphere(GLfloat radius, int thetaResolution, int phiResolution, Shader *shaderProgram) {
-    shader = shaderProgram;
+Sphere::Sphere(GLfloat radius, int thetaResolution, int phiResolution, std::shared_ptr<Shader> shaderProgram) : Object(shaderProgram) {
     vertices.assign((thetaResolution * phiResolution), Vertex());
     indices.assign((6 * (thetaResolution - 1) * (phiResolution - 1)), 0);
     

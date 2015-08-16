@@ -4,6 +4,6 @@
 class Cube : public Object {
     
 public:
-    Cube(GLfloat sideLength, Shader *shaderProgram);
+    Cube(GLfloat sideLength, std::shared_ptr<Shader> shaderProgram);
   
 };

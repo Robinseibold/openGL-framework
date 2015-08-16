@@ -1,8 +1,8 @@
 
 #include "Rectangle.h"
 
-Rectangle::Rectangle(GLfloat sideLengthOne, GLfloat sideLengthTwo, int sideOneResolution, int sideTwoResolution, Shader *shaderProgram) {
-    shader = shaderProgram;
+Rectangle::Rectangle(GLfloat sideLengthOne, GLfloat sideLengthTwo, int sideOneResolution, int sideTwoResolution,
+                     std::shared_ptr<Shader> shaderProgram) : Object(shaderProgram) {
     vertices.assign((sideOneResolution * sideTwoResolution), Vertex());
     indices.assign((6 * (sideOneResolution - 1) * (sideTwoResolution - 1)), 0);
     
