@@ -306,6 +306,13 @@ struct mat4 {
         return *this;
     }
     
+    mat4<T>& scale(vec3<T> v) {
+        x1 *= v.x;
+        y2 *= v.y;
+        z3 *= v.z;
+        return *this;
+    }
+    
     mat4<T>& scaleTo(T xScale, T yScale, T zScale) {
         x1 = xScale;
         y2 = yScale;
@@ -320,7 +327,7 @@ struct mat4 {
         return *this;
     }
     
-    mat4<T>& translate(vec3<T> &v) {
+    mat4<T>& translate(vec3<T> v) {
         return (*this).translate(v.x, v.y, v.z);
     }
     
@@ -449,6 +456,14 @@ struct mat4 {
         vec3<T> upNew = direction.crossProduct(right).normalize();
         lookAt(right, upNew, direction, position);
         return *this;
+    }
+    
+    vec3<T> getTranslationVector() {
+        return vec3<T>(w1, w2, w3);
+    }
+    
+    vec3<T> getScaleVector() {
+        return vec3<T>(x1, y2, z3);
     }
     
     T* array() {
