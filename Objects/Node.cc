@@ -36,4 +36,7 @@ void Node::setTransformationMatrices(mat4<GLfloat> &model, mat4<GLfloat> *view, 
     modelMatrix.scale(model.getScaleVector());
     viewMatrix = view;
     projectionMatrix = projection;
+    for (auto node : subNodes) {
+        node.second->setTransformationMatrices(model, view, projection);
+    }
 }
