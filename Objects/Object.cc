@@ -19,6 +19,17 @@ void Object::draw() {
     if (viewMatrix) {
         shader->setPropertyMatrix("View", viewMatrix->array());
     }
+    
+    GLenum textureUnit = GL_TEXTURE0;
+    GLint samplerValue = 0;
+    for (auto texture : textures) {
+        glActiveTexture(textureUnit + samplerValue);
+        shader->setSampler(texture.first.c_str(), samplerValue);
+        texture.second->activate();
+        samplerValue += 1;
+    }
+    glActiveTexture(textureUnit);
+    
     glBindVertexArray(vertexArrayObject);
         glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
@@ -28,6 +39,10 @@ void Object::draw() {
 void Object::moveBy(GLfloat x, GLfloat y, GLfloat z) {
     Node::moveBy(x, y, z);
     shader->setModelMatrix(modelMatrix);
+}
+
+void Object::addTexture(std::shared_ptr<Texture> texture, std::string uniformName) {
+    textures[uniformName] = texture;
 }
 
 void Object::setTransformationMatrices(mat4<GLfloat> &model, mat4<GLfloat> *view, mat4<GLfloat> *projection) {

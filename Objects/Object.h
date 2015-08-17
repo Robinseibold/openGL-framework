@@ -5,6 +5,7 @@
 
 #include "Node.h"
 #include "../Shaders/Shader.h"
+#include "../Textures/Texture.h"
 
 class Object : public Node {
     
@@ -12,6 +13,7 @@ public:
     ~Object();
     void draw();
     void moveBy(GLfloat x, GLfloat y, GLfloat z);
+    void addTexture(std::shared_ptr<Texture> texture, std::string uniformName);
     
 protected:
     GLuint vertexArrayObject;
@@ -20,6 +22,7 @@ protected:
     
     std::vector<Vertex> vertices;
     std::vector<GLuint> indices;
+    std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
     
     std::shared_ptr<Shader> shader;
     
