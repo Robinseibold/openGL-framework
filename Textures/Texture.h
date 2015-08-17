@@ -1,6 +1,6 @@
 
 #include <openGL/gl3.h>
-#include <SDL_image/SDL_image.h>
+#include <SDL2_image/SDL_image.h>
 
 #include <string>
 #include <iostream>
