@@ -84,6 +84,16 @@ void Shader::setPropertyVector(const char *name, const GLfloat *vectorArray) {
     glUniform3fv(vectorLocation, 1, vectorArray);
 }
 
+void Shader::setSampler(const char *name, const GLint samplerValue) {
+    GLint samplerLocation = glGetUniformLocation(shaderProgram, name);
+    if (samplerLocation == -1) {
+        std::cout << "The sampler name '" << name << "' does not correspond to a sampler in the shader" << std::endl;
+        return;
+    }
+    this->activate();
+    glUniform1i(samplerLocation, samplerValue);
+}
+
 std::string Shader::readSourceCode(std::string fileName) {
     std::string sourceCode;
     std::ifstream inputFile(fileName);

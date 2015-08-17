@@ -18,6 +18,7 @@ public:
     void setTransformationMatrices(mat4<GLfloat> &model, mat4<GLfloat> *view, mat4<GLfloat> *projection);
     void setPropertyMatrix(const char *name, const GLfloat *matrixArray);
     void setPropertyVector(const char *name, const GLfloat *vectorArray);
+    void setSampler(const char *name, const GLint samplerValue);
     
 private:
     GLuint shaderProgram;
