@@ -18,7 +18,7 @@ Texture2D::Texture2D(std::string textureName) {
         width = image->w;
         height = image->h;
     
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->pixels);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, image->pixels);
         glGenerateMipmap(GL_TEXTURE_2D);
         
         SDL_FreeSurface(image);
