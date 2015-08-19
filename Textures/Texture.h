@@ -3,6 +3,7 @@
 #include <SDL2_image/SDL_image.h>
 
 #include <string>
+#include <vector>
 #include <iostream>
 
 class Texture {
@@ -14,7 +15,6 @@ public:
     
 protected:
     GLuint texture;
-    int width, height;
     
 };
 
@@ -29,3 +29,11 @@ public:
 };
 
 
+class TextureCubeMap : public Texture {
+    
+public:
+    TextureCubeMap(std::string textureName);
+    void activate();
+    void unactivate();
+    
+};
