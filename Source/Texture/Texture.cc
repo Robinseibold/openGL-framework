@@ -16,7 +16,7 @@ Texture2D::Texture2D(std::string textureName) {
     
     int width;
     int height;
-    SDL_Surface *image = IMG_Load(("Textures/" + textureName + ".png").c_str());
+    SDL_Surface *image = IMG_Load(("Resources/Textures/" + textureName + ".png").c_str());
     if (image) {
         width = image->w;
         height = image->h;
@@ -56,7 +56,7 @@ TextureCubeMap::TextureCubeMap(std::string textureName) {
     int height;
     
     for (int i = 0; i != sides.size(); ++i) {
-        image = IMG_Load(("Textures/" + textureName + "/" + sides[i] + ".png").c_str());
+        image = IMG_Load(("Resources/Textures/" + textureName + "/" + sides[i] + ".png").c_str());
         if (image) {
             width = image->w;
             height = image->h;

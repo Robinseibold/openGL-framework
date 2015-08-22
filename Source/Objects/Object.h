@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "Node.h"
-#include "../Shaders/Shader.h"
-#include "../Textures/Texture.h"
+#include "../Shader/Shader.h"
+#include "../Texture/Texture.h"
 
 class Object : public Node {
     
