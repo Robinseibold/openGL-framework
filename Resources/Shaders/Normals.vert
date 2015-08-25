@@ -11,7 +11,13 @@ uniform mat4 View;
 uniform mat4 Projection;
 uniform mat4 InverseTransposeModel;
 
+uniform bool worldNormal = true;
+
 void main() {
     gl_Position = Projection * View * Model * vec4(Position, 1.0f);
-    normal = mat3(InverseTransposeModel) * Normal;
+    if (worldNormal) {
+        normal = mat3(InverseTransposeModel) * Normal;
+    } else {
+        normal = Normal;
+    }
 }
