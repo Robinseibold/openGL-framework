@@ -235,6 +235,25 @@ struct mat3 {
          y1(y1), y2(y2), y3(y3),
          z1(z1), z2(z2), z3(z3) { }
     
+    mat3<T>& operator = (const mat3<T> &m) {
+        x1 = m.x1; x2 = m.x2; x3 = m.x3;
+        y1 = m.y1; y2 = m.y2; y3 = m.y3;
+        z1 = m.z1; z2 = m.z2; z3 = m.z3;
+        return *this;
+    }
+    
+    mat3<T> operator * (T scalar) const {
+        return mat3(x1 * scalar, y1 * scalar, z1 * scalar,
+                    x2 * scalar, y2 * scalar, z2 * scalar,
+                    x3 * scalar, y3 * scalar, z3 * scalar);
+    }
+    
+    vec3<T> operator * (const vec3<T> &v) {
+        return vec3<T>(((x1 * v.x) + (y1 * v.y) + (z1 * v.z)),
+                       ((x2 * v.x) + (y2 * v.y) + (z2 * v.z)),
+                       ((x3 * v.x) + (y3 * v.y) + (z3 * v.z)));
+    }
+    
     T* array() {
         return &x1;
     }
@@ -554,6 +573,11 @@ vec3<T> operator * (T scalar, const vec3<T> &v) {
 template <typename T>
 vec4<T> operator * (T scalar, const vec4<T> &v) {
     return v * scalar;
+}
+
+template <typename T>
+mat3<T> operator * (T scalar, const mat3<T> &m) {
+    return m * scalar;
 }
 
 template <typename T>
