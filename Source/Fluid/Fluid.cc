@@ -53,13 +53,47 @@ void Fluid::diffuse(float *current, float *previous, float propertyValue) {
     }
 }
 
+void Fluid::advect(float *current, float *previous, float *xDirection, float *yDirection, float *zDirection) {
+    float xDeltaTimeRate = xSize * deltaTime;
+    float yDeltaTimeRate = ySize * deltaTime;
+    float zDeltaTimeRate = zSize * deltaTime;
+    
+    for (int x = 1; x != xSize; ++x) {
+        for (int y = 1; y != ySize; ++y) {
+            for (int z = 1; z != zSize; ++z) {
+                float xPosition = constrainValue((x - (xDeltaTimeRate * xDirection[INDEX(x, y, z)])), xSize);
+                float yPosition = constrainValue((y - (yDeltaTimeRate * yDirection[INDEX(x, y, z)])), ySize);
+                float zPosition = constrainValue((z - (zDeltaTimeRate * zDirection[INDEX(x, y, z)])), zSize);
+                
+                int fromX = int (xPosition);
+                int fromY = int (yPosition);
+                int fromZ = int (zPosition);
+                
+                float deltaX = xPosition - fromX;
+                float deltaY = yPosition - fromY;
+                float deltaZ = zPosition - fromZ;
 
+                current[INDEX(x, y, z)] = (1 - deltaX) * (((1 - deltaY) * (1 - deltaZ) * previous[INDEX(fromX, fromY, fromZ)]) +
+                                                          (deltaY * (1 - deltaZ) * previous[INDEX(fromX, (fromY + 1), fromZ)]) +
+                                                          ((1 - deltaY) * deltaZ * previous[INDEX(fromX, fromY, (fromZ + 1))]) +
+                                                          (deltaY * deltaZ * previous[INDEX(fromX, (fromY + 1), (fromZ + 1))])) +
+                                                deltaX * (((1 - deltaY) * (1 - deltaZ) * previous[INDEX((fromX + 1), fromY, fromZ)]) +
+                                                          (deltaY * (1 - deltaZ) * previous[INDEX((fromX + 1), (fromY + 1), fromZ)]) +
+                                                          ((1 - deltaY) * deltaZ * previous[INDEX((fromX + 1), fromY, (fromZ + 1))]) +
+                                                          (deltaY * deltaZ * previous[INDEX((fromX + 1), (fromY + 1), (fromZ + 1))]));
+            }
+        }
+    }
+}
 
-
-
-
-
-
+float Fluid::constrainValue(float value, int size) {
+    if (value < 0.5) {
+        return value;
+    } else if (value > (size - 0.5)) {
+        return (size - 0.5);
+    }
+    return value;
+}
 
 
 
