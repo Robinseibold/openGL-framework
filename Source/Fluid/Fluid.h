@@ -27,6 +27,7 @@ private:
     void diffuse(float *current, float *previous, float propertyValue);
     void advect(float *current, float *previous, float *xDirection, float *yDirection, float *zDirection);
     
+    void checkBounds(float *current, int bound);
     float constrainValue(float value, int size);
     
 };

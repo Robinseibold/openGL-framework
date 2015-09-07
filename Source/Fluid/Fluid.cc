@@ -86,6 +86,46 @@ void Fluid::advect(float *current, float *previous, float *xDirection, float *yD
     }
 }
 
+void Fluid::checkBounds(float *current, int bound) {
+    int x, y, z;
+    
+    z = zSize + 1;
+    for (x = 1; x != xSize; ++x) {
+        for (y = 1; y != ySize; ++y) {
+            current[INDEX(x, y, 0)] = (bound == 3) ? (-current[INDEX(x, y, 1)]) : (current[INDEX(x, y, 1)]);
+            current[INDEX(x, y, z)] = (bound == 3) ? (-current[INDEX(x, y, z)]) : (current[INDEX(x, y, z)]);
+        }
+    }
+    
+    y = ySize + 1;
+    for (x = 1; x != xSize; ++x) {
+        for (z = 1; z != zSize; ++z) {
+            current[INDEX(x, 0, z)] = (bound == 2) ? (-current[INDEX(x, 1, z)]) : (current[INDEX(x, 1, z)]);
+            current[INDEX(x, y, z)] = (bound == 2) ? (-current[INDEX(x, y, z)]) : (current[INDEX(x, y, z)]);
+        }
+    }
+    
+    x = xSize + 1;
+    for (y = 1; y != ySize; ++y) {
+        for (z = 1; z != zSize; ++z) {
+            current[INDEX(0, y, z)] = (bound == 1) ? (-current[INDEX(1, y, z)]) : (current[INDEX(1, y, z)]);
+            current[INDEX(x, y, z)] = (bound == 1) ? (-current[INDEX(x, y, z)]) : (current[INDEX(x, y, z)]);
+        }
+    }
+    
+    y = ySize + 1;
+    z = zSize + 1;
+    float rate = (1.0 / 3.0);
+    current[INDEX(0, 0, 0)] = rate * (current[INDEX(1, 0, 0)] + current[INDEX(0, 1, 0)] + current[INDEX(0, 0, 1)]);
+    current[INDEX(x, 0, 0)] = rate * (current[INDEX(x, 0, 0)] + current[INDEX(x, 1, 0)] + current[INDEX(x, 0, 1)]);
+    current[INDEX(0, y, 0)] = rate * (current[INDEX(0, y, 0)] + current[INDEX(1, y, 0)] + current[INDEX(0, y, 1)]);
+    current[INDEX(0, 0, z)] = rate * (current[INDEX(0, 0, z)] + current[INDEX(1, 0, z)] + current[INDEX(0, 1, z)]);
+    current[INDEX(x, y, 0)] = rate * (current[INDEX(xSize, y, 0)] + current[INDEX(x, ySize, 0)] + current[INDEX(x, y, 1)]);
+    current[INDEX(x, 0, z)] = rate * (current[INDEX(xSize, 0, z)] + current[INDEX(x, 0, zSize)] + current[INDEX(x, 1, z)]);
+    current[INDEX(0, y, z)] = rate * (current[INDEX(0, ySize, z)] + current[INDEX(0, y, zSize)] + current[INDEX(1, y, z)]);
+    current[INDEX(x, y, z)] = rate * (current[INDEX(xSize, y, z)] + current[INDEX(x, ySize, z)] + current[INDEX(x, y, zSize)]);
+}
+
 float Fluid::constrainValue(float value, int size) {
     if (value < 0.5) {
         return value;
