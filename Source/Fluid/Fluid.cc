@@ -86,6 +86,47 @@ void Fluid::advect(float *current, float *previous, float *xDirection, float *yD
     }
 }
 
+void Fluid::project(float *velocityGradient, float *previousVelocityGradient, float *xDirection, float *yDirection, float *zDirection) {
+    float xReciprocalSize = 1.0 / (xSize - 1);
+    float yReciprocalSize = 1.0 / (ySize - 1);
+    float zReciprocalSize = 1.0 / (zSize - 1);
+    
+    for (int x = 1; x != xSize; ++x) {
+        for (int y = 1; y != ySize; ++y) {
+            for (int z = 1; z != zSize; ++z) {
+                float neighbourValues = (xReciprocalSize * (xDirection[INDEX(x + 1, y, z)] - xDirection[INDEX(x - 1, y, z)])) +
+                                        (yReciprocalSize * (yDirection[INDEX(x, y + 1, z)] - yDirection[INDEX(x, y - 1, z)])) +
+                                        (zReciprocalSize * (zDirection[INDEX(x, y, z + 1)] - zDirection[INDEX(x, y, z - 1)]));
+                previousVelocityGradient[INDEX(x, y, z)] = -(1.0 / 3.0) * neighbourValues;
+                velocityGradient[INDEX(x, y, z)] = 0;
+            }
+        }
+    }
+    
+    for (int iteration = 0; iteration != numberOfIterations; ++iteration) {
+        for (int x = 1; x != xSize; ++x) {
+            for (int y = 1; y != ySize; ++y) {
+                for (int z = 1; z != zSize; ++z) {
+                    float neighbourValues = velocityGradient[INDEX(x - 1, y, z)] + velocityGradient[INDEX(x + 1, y, z)] +
+                                            velocityGradient[INDEX(x, y - 1, z)] + velocityGradient[INDEX(x, y + 1, z)] +
+                                            velocityGradient[INDEX(x, y, z - 1)] + velocityGradient[INDEX(x, y, z - 1)];
+                    velocityGradient[INDEX(x, y, z)] = (1.0 / 6.0) * (previousVelocityGradient[INDEX(x, y, z)] + neighbourValues);
+                }
+            }
+        }
+    }
+    
+    for (int x = 1; x != xSize; ++x) {
+        for (int y = 1; y != ySize; ++y) {
+            for (int z = 1; z != zSize; ++z) {
+                xDirection[INDEX(x, y, z)] -= 0.5 * (xSize - 1) * (velocityGradient[INDEX(x + 1, y, z)] - velocityGradient[INDEX(x - 1, y, z)]);
+                yDirection[INDEX(x, y, z)] -= 0.5 * (ySize - 1) * (velocityGradient[INDEX(x, y + 1, z)] - velocityGradient[INDEX(x, y - 1, z)]);
+                zDirection[INDEX(x, y, z)] -= 0.5 * (zSize - 1) * (velocityGradient[INDEX(x, y, z + 1)] - velocityGradient[INDEX(x, y, z - 1)]);
+            }
+        }
+    }
+}
+
 void Fluid::checkBounds(float *current, int bound) {
     int x, y, z;
     

@@ -23,9 +23,11 @@ private:
     float viscosity = 0.0001;
     
     
+    
     void addSource(float *destination, float *source);
     void diffuse(float *current, float *previous, float propertyValue);
     void advect(float *current, float *previous, float *xDirection, float *yDirection, float *zDirection);
+    void project(float *velocityGradient, float *previousVelocityGradient, float *xDirection, float *yDirection, float *zDirection);
     
     void checkBounds(float *current, int bound);
     float constrainValue(float value, int size);
