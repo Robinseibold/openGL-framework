@@ -25,8 +25,8 @@ private:
     
     
     void addSource(float *destination, float *source);
-    void diffuse(float *current, float *previous, float propertyValue);
-    void advect(float *current, float *previous, float *xDirection, float *yDirection, float *zDirection);
+    void diffuse(float *current, float *previous, float propertyValue, int bound);
+    void advect(float *current, float *previous, float *xDirection, float *yDirection, float *zDirection, int bound);
     void project(float *velocityGradient, float *previousVelocityGradient, float *xDirection, float *yDirection, float *zDirection);
     
     void checkBounds(float *current, int bound);

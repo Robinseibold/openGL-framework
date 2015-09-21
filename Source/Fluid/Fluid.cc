@@ -35,7 +35,7 @@ void Fluid::addSource(float *destination, float *source) {
     }
 }
 
-void Fluid::diffuse(float *current, float *previous, float propertyValue) {
+void Fluid::diffuse(float *current, float *previous, float propertyValue, int bound) {
     float rate = deltaTime * propertyValue * xSize * ySize * zSize;
     float reciprocalMultipliedRate = 1 / (1 + (6 * rate));
     
@@ -50,10 +50,12 @@ void Fluid::diffuse(float *current, float *previous, float propertyValue) {
                 }
             }
         }
+        
+        checkBounds(current, bound);
     }
 }
 
-void Fluid::advect(float *current, float *previous, float *xDirection, float *yDirection, float *zDirection) {
+void Fluid::advect(float *current, float *previous, float *xDirection, float *yDirection, float *zDirection, int bound) {
     float xDeltaTimeRate = xSize * deltaTime;
     float yDeltaTimeRate = ySize * deltaTime;
     float zDeltaTimeRate = zSize * deltaTime;
@@ -84,6 +86,8 @@ void Fluid::advect(float *current, float *previous, float *xDirection, float *yD
             }
         }
     }
+    
+    checkBounds(current, bound);
 }
 
 void Fluid::project(float *velocityGradient, float *previousVelocityGradient, float *xDirection, float *yDirection, float *zDirection) {
@@ -103,6 +107,9 @@ void Fluid::project(float *velocityGradient, float *previousVelocityGradient, fl
         }
     }
     
+    checkBounds(previousVelocityGradient, 0);
+    checkBounds(velocityGradient, 0);
+    
     for (int iteration = 0; iteration != numberOfIterations; ++iteration) {
         for (int x = 1; x != xSize; ++x) {
             for (int y = 1; y != ySize; ++y) {
@@ -114,6 +121,8 @@ void Fluid::project(float *velocityGradient, float *previousVelocityGradient, fl
                 }
             }
         }
+        
+        checkBounds(velocityGradient, 0);
     }
     
     for (int x = 1; x != xSize; ++x) {
@@ -125,6 +134,10 @@ void Fluid::project(float *velocityGradient, float *previousVelocityGradient, fl
             }
         }
     }
+    
+    checkBounds(xDirection, 1);
+    checkBounds(yDirection, 2);
+    checkBounds(zDirection, 3);
 }
 
 void Fluid::checkBounds(float *current, int bound) {
@@ -175,20 +188,3 @@ float Fluid::constrainValue(float value, int size) {
     }
     return value;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
